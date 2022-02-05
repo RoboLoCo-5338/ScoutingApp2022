@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+<br>
+<h1 style="margin-left: 10%">Team {{team_name}}</h2>
+<hr style="margin-left: 10%; margin-right: 10%;">
+<br>
+<br>
+<div>
+    <!-- adding button and heading to show the digits -->
+    <!-- increment() and decrement() functions on button click-->
+    <h2 style="margin-left: 10%">Points Scored</h2>
+    <br>
+    <div style="display: flex">
+        <div style="width: 50%; flex: 1; margin-right: 10%; margin-left: 2.5%;">
+            <button onclick="increment()" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">High Goal</button>
+            <button onclick="decrement1()" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%">Oopsy</button>
+            <h2 id="counting" style="float: right; margin-right: 25%;"></h2>
+            <br>
+            <br>
+            <button onclick="increment2()" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">Low Goal</button>
+            <button onclick="decrement2()" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%;">Oopsy</button>
+            <h2 id="counting2" style="float: right; margin-right: 25%;"></h2>
+            <br>
+            <br>
+            <br>
+            <h2 style="margin-left: 20%">Climb</h2>
+            <br>
+            <div style = "margin-left: 20%; display: inline-block;">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" onclick = "increment_climb(this)" id = "4" class="btn btn-secondary">Low</button>
+                    <button type="button" onclick = "increment_climb(this)" id = "6" class="btn btn-secondary">Mid</button>
+                    <button type="button" onclick = "increment_climb(this)" id = "10" class="btn btn-secondary">High</button>
+                    <button type="button" onclick = "increment_climb(this)" id = "15" class="btn btn-secondary">Traversal</button>
+                </div>
+            </div>
+            <h2 style="margin-left: 20%; margin-top: 10%">Penalties</h2>
+            <br>
+            <div style = "margin-left: 20%; display: inline-block;">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" id = "red" onclick = "increment_penalty(this)" class="btn btn-danger">Red Card</button>
+                    <button type="button" id = "yellow" onclick = "increment_penalty(this)" class="btn btn-warning">Yellow Card</button>
+                </div>
+            </div>
+        </div>
+        <div style="width: 50%; float: right; margin-top: 11%;">
+            <h2>{{ team_name }} | Preview</h2>
+            <br>
+            <div style="margin-right: 20%;">
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                        <th scope="col">Descriptors</th>
+                        <th scope="col">Desc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Shot Points</th>
+                            <td id = "table_shot_points"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Penalties</th>
+                            <td id = "table_penalties"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Climb</th>
+                            <td id = "table_climb"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">TOTAL</th>
+                            <td id = "table_total_points"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <h2 style="margin-left: 10%; margin-top: 3%;">Notes</h2>
+    <br>
+    <form id="team_notes" method="POST" action="/" class="row g-3" style="margin-left: 10%; margin-right: 10%;">
+        <label for="inputPassword2" class="visually-hidden">Extra Notes</label>
+        <input type="text" name="team_name" class="form-control" id="inputPassword2" placeholder="Extra Notes">
+        <!-- <button onclick = "submit()" type="submit" class="btn btn-primary mb-3" name="notes" value="notes">Save Session Notes</button> -->
+    </form>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <button onclick="submit()" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 10%; display: inline-block;">Submit Session</button> <h2 id="counting4" style="float: right; margin-right: 50%;"></h2>
+
+</div>
+<!-- JavaScript code-->
+<script>
+    //initialising a variable name data
+    var high_goal = 0;
+    var low_goal = 0;
+    var climb = 0;
+    var penalty = "-";
+
+    //printing default value of data that is 0 in h2 tag
+    document.getElementById("counting").innerText = high_goal;
+    document.getElementById("counting2").innerText = low_goal;
+
+    function update(){
+        var shot_points = (2*high_goal) + low_goal;
+
+        document.getElementById("table_shot_points").innerText = shot_points; 
+        document.getElementById("table_climb").innerText = climb;
+        document.getElementById("table_penalties").innerText = penalty;
+        console.log(high_goal + low_goal);
+        console.log(high_goal + low_goal + climb);
+        document.getElementById("table_total_points").innerText = shot_points + climb;
+    }
+
+    //creation of increment function
+    function increment() {
+        high_goal += 1;
+        document.getElementById("counting").innerText = high_goal;
+        update();
+    }
+    function increment2() {
+        low_goal += 1;
+        document.getElementById("counting2").innerText = low_goal;
+        update();
+    }
+
+    function increment_climb(elem) {
+        var x = parseInt(elem.id);
+        
+        climb = x;
+        update();
+    }
+    
+    function increment_penalty(elem) {
+        var x = elem.id;
+        
+        penalty = x;
+
+        if (penalty == "red"){
+            var color = "R";
+        }
+        if (penalty == "yellow"){
+            var color = 'Y';
+        }
+
+        document.getElementById("table_penalties").innerText = color; 
+    }
+    
+    function submit(){
+        var team_data = {
+            'high_goal': high_goal,
+            'low_goal': low_goal, 
+            'climb_points': climb,
+            'penalty': penalty
+            }
+
+        var elements = document.getElementById("team_notes").elements;
+        for(var i = 0 ; i < elements.length ; i++){
+            var item = elements.item(i);
+            team_data['notes'] = item.value;
+        }
+
+        // document.getElementById("demo").innerHTML = JSON.stringify(obj);
+
+        
+        fetch("/observing",
+            {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify(team_data)}).then(res => {console.log("Request complete! response:", res);
+            }
+        );
+        // $.ajax({
+        // url: Flask.url_for('/observing'),
+        // type: 'POST',
+        // data: JSON.stringify(team_data),   // converts js value to JSON string
+        // })
+        // .done(function(result){     // on success get the return object from server
+        //     console.log(result)     // do whatever with it. In this case see it in console
+        // })
+    }
+
+    //creation of decrement function
+    function decrement1() {
+        high_goal = high_goal - 1;
+        document.getElementById("counting").innerText = high_goal;
+        update();
+    }
+    function decrement2() {
+        low_goal = low_goal - 1;
+        document.getElementById("counting2").innerText = low_goal;
+        update();
+    }
+</script>
+<form method = "POST" action='/observing' style = "margin-left: 10%">
+    <!-- <form method ="post" action="/observing">
+        <button type="submit" name="ball_shot" value="ball_shot" class="btn btn-primary btn-lg">Ball Shot</button>&nbsp;&nbsp;
+        <button type="submit" name="accident" value="accident" class="btn btn-primary btn-lg">Accident Happened</button>&nbsp;&nbsp;
+        <button type="submit" name="e1" value="e1" class="btn btn-primary btn-lg">Event 1</button>&nbsp;&nbsp;
+        <button type="submit" name="e2" value="e2" class="btn btn-primary btn-lg">Event 2</button>&nbsp;&nbsp;
+    </form>  -->
+    <!-- <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Team Name</label>
+        <br>
+        <input type="button" value="Team1">
+        <input type="button" value="Team2">
+        <input type="button" value="Team3">
+        <input type="button" value="Team4">
+        <br>
+        <br>
+        <br>
+        <input type="text" class="form-control" id="exampleInputPassword1" name = "team_name">
+        <label for="exampleInputPassword1" class="form-label">Notes on Team</label>
+        <br>
+        <input type="button" value="Ball Shot" name="ball_shot">
+        <input type="button" value="Some Action" name="">
+        <input type="button" value="Some Action">
+        <input type="button" value="Some Action">
+        <input type="button" value="Some Action">
+        <input type="text" class="form-control" id="exampleInputPassword1" name = "notes">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Crop Type</label></br>
+            <select name="type" id="crops">
+        </select>
+    </div> -->
+    <!--
+    <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div> -->
+    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+    </br></br>
+</form>
+{% endblock %}
