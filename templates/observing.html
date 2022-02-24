@@ -19,7 +19,7 @@
     <br>
     <br>
     <br>
-    <h2 style="margin-left: 10%">Points Scored</h2>
+    <h2 style="margin-left: 10%">Goals Scored</h2>
     <br>
     <div style="display: flex">
         <div style="width: 50%; flex: 1; margin-right: 10%; margin-left: 2.5%;">
@@ -179,6 +179,8 @@
         if (penalty == "yellow"){
             var color = 'Y';
         }
+
+        penalty = color;
 
         document.getElementById("table_penalties").innerText = color; 
     }
