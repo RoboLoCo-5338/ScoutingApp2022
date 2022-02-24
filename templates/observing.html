@@ -5,10 +5,20 @@
 <h1 style="margin-left: 10%">Team {{team_name}}</h2>
 <hr style="margin-left: 10%; margin-right: 10%;">
 <br>
-<br>
 <div>
     <!-- adding button and heading to show the digits -->
     <!-- increment() and decrement() functions on button click-->
+    <h2 style="margin-left: 10%">Autonomous</h2>
+    <br>
+    <div style = "margin-left: 10%; display: inline-block;">
+	<div class="btn-group" role="group" aria-label="Basic example">
+	    <button type="button" onclick = "check_auto();" id = "4" class="btn btn-secondary">Yes</button>
+	    <button type="button" onclick = "" id = "6" class="btn btn-secondary">No</button>
+	</div>
+    </div>
+    <br>
+    <br>
+    <br>
     <h2 style="margin-left: 10%">Points Scored</h2>
     <br>
     <div style="display: flex">
@@ -32,6 +42,17 @@
                     <button type="button" onclick = "increment_climb(this)" id = "6" class="btn btn-secondary">Mid</button>
                     <button type="button" onclick = "increment_climb(this)" id = "10" class="btn btn-secondary">High</button>
                     <button type="button" onclick = "increment_climb(this)" id = "15" class="btn btn-secondary">Traversal</button>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <h2 style="margin-left: 20%">Defense</h2>
+            <br>
+            <div style = "margin-left: 20%; display: inline-block;">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" onclick = "check_defense()" id = "4" class="btn btn-secondary">Yes</button>
+                    <button type="button" onclick = "increment_climb(this)" id = "6" class="btn btn-secondary">No</button>
                 </div>
             </div>
             <h2 style="margin-left: 20%; margin-top: 10%">Penalties</h2>
@@ -88,7 +109,7 @@
     <br>
     <br>
     <br>
-    <button onclick="submit()" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 10%; display: inline-block;">Submit Session</button> <h2 id="counting4" style="float: right; margin-right: 50%;"></h2>
+    <button onclick="submit(); refresh();" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 10%; display: inline-block;">Submit Session</button> <h2 id="counting4" style="float: right; margin-right: 50%;"></h2>
 
 </div>
 <!-- JavaScript code-->
@@ -98,6 +119,20 @@
     var low_goal = 0;
     var climb = 0;
     var penalty = "-";
+    var defense = false;
+    var auto = false;
+
+    function check_auto(){
+	auto = true;
+    }
+
+    function refresh(){
+	location.reload();
+    }
+
+    function check_defense(){
+        defense = true;
+    }
 
     //printing default value of data that is 0 in h2 tag
     document.getElementById("counting").innerText = high_goal;
@@ -153,7 +188,9 @@
             'high_goal': high_goal,
             'low_goal': low_goal, 
             'climb_points': climb,
-            'penalty': penalty
+            'penalty': penalty,
+            'defense': defense,
+            'auto': auto
             }
 
         var elements = document.getElementById("team_notes").elements;
