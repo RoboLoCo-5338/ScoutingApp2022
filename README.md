@@ -70,4 +70,4 @@ If any penalties are given against the team, select whether they got a red card 
 
 Enter any additional notes on the team's performance in the `Notes` section.
 
-When the match is done (and after the autonomous period), click the blue `Submit Session` button at the bottom to submit the data.
+When the autonomous period is over, click the blue `Submit Session` button at the bottom to submit the data. Do the same at the end of the match to submit the teleop observations.
