@@ -44,14 +44,30 @@ Then paste this command into the next terminal line: `python app.py`. Press ente
 
 ## To Use This Application
 
-First you will see a page to enter the team name/number of the team that you will be scouting. After entering the name, click the blue button.
+![Alt text](assets/team_name_entry.png?raw=true "Team name entry")
 
-The observation page comes up. Here you will enter information about the team's performance. Click the `High Goal` and `Low Goal` buttons each time the team scores a high or low goal, respectively. Click the `Oopsy` button to subtract a goal that was accidentally added.
+First you will see a page to enter the team number of the team that you will be scouting. Note that it will tell you to `Please match the requested format.` and not allow you to proceed if you enter any characters that are not digits. After entering the number, click the blue `Start Session` button.
 
-During the autonomous period, select autonomous mode at the top. Track the team's performance during this period. When autonomous is over, click the blue `Submit Session` button at the bottom.
+![Alt text](assets/autonomous_select_img.png?raw=true "Autonomous select")
 
-During the rest of the match, have the `Teleop` mode selected, and track the team's performance in the same manner as before. Enter any additional notes on the team's performance in the `Notes` section.
+During the autonomous period, select `Yes` to the autonomous mode option at the top. During the rest of the match, have `No` selected for autonomous mode option at the top. Track the team's performance during autonomous with the buttons below. **When autonomous is over, scroll down to the bottom and click the blue `Submit Session` button. Then start a new session for the teleop period. The autonomous performance is submitted separately from the teleop performance.**
+
+![Alt text](assets/goal_adding.png?raw=true "Goal adding buttons")
+
+Click the `High Goal` and `Low Goal` buttons each time the team scores a high or low goal, respectively. Click the `Oopsy` button to subtract a goal that was accidentally added.
+
+![Alt text](assets/climb_score_entry.png?raw=true "Selection of climb height")
 
 At the end of the match, select the highest climbing bar reached by the robot.
 
-Click the blue `Submit Session` button at the bottom to submit the data.
+![Alt text](assets/defense_select.png?raw=true "Selection of whether it is a defense bot")
+
+Some bots specialize in being defensive rather than scoring points themselves. If this is the case for the team you are observing, select `Yes` and make note of how well they defend in the `Notes` section described below. Otherwise, just select `No`.
+
+![Alt text](assets/penalties_select.png?raw=true "Selection of penalties against the team")
+
+If any penalties are given against the team, select whether they got a red card or a yellow card with the colored buttons.
+
+Enter any additional notes on the team's performance in the `Notes` section.
+
+When the match is done (and after the autonomous period), click the blue `Submit Session` button at the bottom to submit the data.
