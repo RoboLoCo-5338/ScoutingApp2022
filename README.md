@@ -9,7 +9,7 @@ https://www.python.org/downloads/
 
 ![Alt text](assets/python_download_btn_img.png?raw=true "Download Python button")
 
-Click the big yellow button that says `Download Python 3.X.X`. Once downloaded, wait for instructions. If you already know how to install Python, continue as usual, but **make sure to click the checkbox to add Python to the PATH**.
+Click the big yellow button that says `Download Python 3.X.X`. Once downloaded, click to open the file and continue the installation with all of the default and recommended settings, **but make sure to click the checkbox to add Python to the PATH**.
 
 ![Alt text](assets/python_path_img.png?raw=true "Add to PATH button")
 
