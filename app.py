@@ -212,7 +212,7 @@ def analytics_display_auto():
 
     sd_high_arr = [[str(key), sd_high[key]] for key in sd_high]    
     sd_low_arr = [[str(key), sd_low[key]] for key in sd_low]    
-    sd_climb_arr = [[str(key), sd_climb[key]] for key in sd_climb]    
+    sd_climb_arr = [[str(key), sd_climb[key]] for key in sd_climb]
 
     return render_template('analytics_display.html', 
                 len=len(final_data), 
