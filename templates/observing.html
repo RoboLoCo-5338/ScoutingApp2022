@@ -59,8 +59,8 @@
             <br>
             <div style = "margin-left: 20%; display: inline-block;">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" id = "red" onclick = "increment_penalty(this)" class="btn btn-danger">Red Card</button>
-                    <button type="button" id = "yellow" onclick = "increment_penalty(this)" class="btn btn-warning">Yellow Card</button>
+                    <button type="button" id = "R" onclick = "increment_penalty(this)" class="btn btn-danger">Red Card</button>
+                    <button type="button" id = "Y" onclick = "increment_penalty(this)" class="btn btn-warning">Yellow Card</button>
                 </div>
             </div>
         </div>
@@ -147,7 +147,8 @@
     }
 
     function refresh(){
-	    location.reload();
+	    window.scrollTo(0,0);
+        setTimeout(() => {location.reload()},600);
     }
 
     function check_defense(elem){
@@ -192,10 +193,8 @@
     function increment_climb(elem) {
         climb = parseInt(elem.id);
 
-        // document.getElementById().style.background = "#6b747c";
-
         var climbButtonElements = document.getElementsByClassName('btn btn-secondary climb');
-	    for(var i = 0; i < climbButtonElements.length; i++){
+	    for (var i = 0; i < climbButtonElements.length; i++){
 		    deselected(climbButtonElements[i]);
     	}
         selected(elem);
@@ -204,20 +203,15 @@
     }
     
     function increment_penalty(elem) {
-        var x = elem.id;
+        var new_penalty = elem.id;
         
-        penalty = x;
-
-        if (penalty == "red"){
-            var color = "R";
-        }
-        if (penalty == "yellow"){
-            var color = 'Y';
+        if (new_penalty === penalty){
+            penalty = "-"
+        } else {
+            penalty = new_penalty;
         }
 
-        penalty = color;
-
-        document.getElementById("table_penalties").innerText = color; 
+        document.getElementById("table_penalties").innerText = penalty; 
     }
     
     function submit(){
