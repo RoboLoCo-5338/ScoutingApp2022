@@ -99,9 +99,11 @@
     </div>
     <h2 style="margin-left: 10%; margin-top: 3%;">Notes</h2>
     <br>
+    <!-- onkeydown="return event.key != 'Enter';" -->
     <form id="team_notes" method="POST" action="/" class="row g-3" style="margin-left: 10%; margin-right: 10%;">
-        <label for="inputPassword2" class="visually-hidden">Extra Notes</label>
-        <input type="text" name="team_name" class="form-control" id="inputPassword2" placeholder="Extra Notes">
+        <!-- <label for="notes_entry" class="visually-hidden">Extra Notes</label> -->
+        <!-- <input type="text" name="team_notes_input" class="form-control" id="notes_entry" placeholder="Extra Notes"> -->
+        <textarea name="team_notes_input" id="notes_entry" rows="2" placeholder="Extra Notes"></textarea>
         <!-- <button onclick = "submit()" type="submit" class="btn btn-primary mb-3" name="notes" value="notes">Save Session Notes</button> -->
     </form>
     <br>
@@ -109,7 +111,7 @@
     <br>
     <br>
     <br>
-    <button onclick="submit(); refresh();" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 10%; display: inline-block;">Submit Session</button> <h2 id="counting4" style="float: right; margin-right: 50%;"></h2>
+    <button type="submit" onclick="submit(); refresh();" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 10%; display: inline-block;">Submit Session</button>
 
 </div>
 <!-- JavaScript code-->

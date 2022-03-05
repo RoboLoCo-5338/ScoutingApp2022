@@ -26,7 +26,7 @@ def init_sheet(sheet_num):
     if sheet_num == 1:
         sheet = client.open("RoboLoco-Scouting-Test").worksheet('teleop')
     if sheet_num == 2:
-        sheet = client.open("RoboLoco-Scouting-Test").worksheet('autonomouse')
+        sheet = client.open("RoboLoco-Scouting-Test").worksheet('autonomous')
 
     return sheet
 
@@ -47,14 +47,11 @@ def home():
     if request.method == 'GET':
         return render_template('home.html')
 
-@app.route('/analytics_teleop', methods=['GET'])
-def analytics_display_teleop():
-    scope = ["https://spreadsheets.google.com/feeds","https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-
-    client = gspread.authorize(creds)
-
-    sheet = client.open("RoboLoco-Scouting-Test").worksheet('teleop')
+def analytics_display(mode):
+    if mode == 'teleop':
+        sheet = init_sheet(1)
+    else:
+        sheet = init_sheet(2)
 
     data = sheet.get_all_records()
 
@@ -94,14 +91,17 @@ def analytics_display_teleop():
         else:
             radar_data[team_name].append([high_goal, low_goal, climb])
     
-    final_data = [[str(key), graph_data[key]] for key in graph_data]
-    final_radar_data = [[str(key), radar_data[key]] for key in radar_data]
-    high_goals_data = [[str(key), high_goals[key]] for key in high_goals]
-    low_goals_data = [[str(key), low_goals[key]] for key in low_goals]
-    climb_data = [[str(key), climb_hash[key]] for key in climb_hash]
-    high_avg_data = [[arr[0], np.average(np.array(arr[1]))] for arr in high_goals_data]
-    low_avg_data = [[arr[0], np.average(np.array(arr[1]))] for arr in low_goals_data]
-    climb_avg_data = [[arr[0], np.average(np.array(arr[1]))] for arr in climb_data]
+    listify = lambda l: [[str(key), l[key]] for key in l]
+    avg_listify = lambda l: [[arr[0], np.average(np.array(arr[1]))] for arr in l]
+
+    final_data = listify(graph_data)
+    final_radar_data = listify(radar_data)
+    high_goals_data = listify(high_goals)
+    low_goals_data = listify(low_goals)
+    climb_data = listify(climb_hash)
+    high_avg_data = avg_listify(high_goals_data)
+    low_avg_data = avg_listify(low_goals_data)
+    climb_avg_data = avg_listify(climb_data)
 
     sd_high = {}
     sd_low = {}
@@ -119,9 +119,9 @@ def analytics_display_teleop():
 
         sd_climb.update({team[0]: np.std(vals)})
 
-    sd_high_arr = [[str(key), sd_high[key]] for key in sd_high]    
-    sd_low_arr = [[str(key), sd_low[key]] for key in sd_low]    
-    sd_climb_arr = [[str(key), sd_climb[key]] for key in sd_climb]    
+    sd_high_arr = listify(sd_high)
+    sd_low_arr = listify(sd_low)
+    sd_climb_arr = listify(sd_climb)
 
     return render_template('analytics_display.html', 
                 len=len(final_data), 
@@ -137,98 +137,14 @@ def analytics_display_teleop():
                 low_avg_data=low_avg_data,
                 climb_avg_data=climb_avg_data
                 )
+
+@app.route('/analytics_teleop', methods=['GET'])
+def analytics_display_teleop():
+    return analytics_display('teleop')
 
 @app.route('/analytics_auto', methods=['GET'])
 def analytics_display_auto():
-    scope = ["https://spreadsheets.google.com/feeds","https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-
-    client = gspread.authorize(creds)
-
-    sheet = client.open("RoboLoco-Scouting-Test").worksheet('autonomouse')
-
-    data = sheet.get_all_records()
-
-    graph_data = {}
-    radar_data = {}
-    high_goals = {}
-    low_goals = {}
-    climb_hash = {}
-    name_set = set([])
-
-    for record in data:
-        team_name = record['team_name'] 
-        if team_name not in name_set:
-            name_set.add(team_name)
-            graph_data.update({team_name: []})
-            radar_data.update({team_name: []})
-            high_goals.update({team_name: []})
-            low_goals.update({team_name: []})
-            climb_hash.update({team_name: []})
-
-        high_goal = int(record['high_goal'])
-        low_goal = int(record['low_goal'])
-        climb = int(record['climb'])
-
-        total_score = (2*high_goal) + low_goal + climb
-
-        graph_data[team_name].append(total_score)
-        high_goals[team_name].append(high_goal)
-        low_goals[team_name].append(low_goal)
-        climb_hash[team_name].append(climb)
-
-        if len(radar_data[team_name]) > 0:
-            radar_data[team_name][0][0] += high_goal
-            radar_data[team_name][0][1] += low_goal 
-            radar_data[team_name][0][2] += climb
-
-        else:
-            radar_data[team_name].append([high_goal, low_goal, climb])
-    
-    final_data = [[str(key), graph_data[key]] for key in graph_data]
-    final_radar_data = [[str(key), radar_data[key]] for key in radar_data]
-    high_goals_data = [[str(key), high_goals[key]] for key in high_goals]
-    low_goals_data = [[str(key), low_goals[key]] for key in low_goals]
-    climb_data = [[str(key), climb_hash[key]] for key in climb_hash]
-    high_avg_data = [[arr[0], np.average(np.array(arr[1]))] for arr in high_goals_data]
-    low_avg_data = [[arr[0], np.average(np.array(arr[1]))] for arr in low_goals_data]
-    climb_avg_data = [[arr[0], np.average(np.array(arr[1]))] for arr in climb_data]
-
-    sd_high = {}
-    sd_low = {}
-    sd_climb = {}
-    for team in high_goals_data:
-        vals = np.array(team[1])
-
-        sd_high.update({team[0]: np.std(vals)})
-    for team in low_goals_data:
-        vals = np.array(team[1])
-
-        sd_low.update({team[0]: np.std(vals)})
-    for team in climb_data:
-        vals = np.array(team[1])
-
-        sd_climb.update({team[0]: np.std(vals)})
-
-    sd_high_arr = [[str(key), sd_high[key]] for key in sd_high]    
-    sd_low_arr = [[str(key), sd_low[key]] for key in sd_low]    
-    sd_climb_arr = [[str(key), sd_climb[key]] for key in sd_climb]
-
-    return render_template('analytics_display.html', 
-                len=len(final_data), 
-                final_data=final_data, 
-                radar_data=final_radar_data, 
-                high_goals_data=high_goals_data, 
-                low_goals_data=low_goals_data,
-                climb_data=climb_data,
-                sd_high=sd_high_arr,
-                sd_low=sd_low_arr,
-                sd_climb=sd_climb_arr,
-                high_avg_data=high_avg_data,
-                low_avg_data=low_avg_data,
-                climb_avg_data=climb_avg_data
-                )
-
+    return analytics_display('autonomous')
 
 @app.route('/observing', methods=['GET', 'POST'])
 def observation():
@@ -277,6 +193,11 @@ def observation():
         s_num = 1
         if data['auto']:
             s_num = 2
+            data['high_goal'] *= 2
+            data['low_goal'] *= 2
+            data['climb'] = 0
+
+
 
         sheet = init_sheet(sheet_num=s_num)
 
