@@ -177,7 +177,12 @@
         document.getElementById("table_penalties").innerText = penalty;
         console.log(high_goal + low_goal);
         console.log(high_goal + low_goal + climb);
-        document.getElementById("table_total_points").innerText = shot_points + climb;
+        if (auto){
+            var local_total = shot_points;
+        } else if (auto == false){
+            var local_total = shot_points + climb;
+        }
+        document.getElementById("table_total_points").innerText = local_total;
     }
 
     //creation of increment function

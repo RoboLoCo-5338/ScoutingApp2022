@@ -23,8 +23,8 @@
                     <th onclick="sortColumn('sd_low'); changeColRank(this);" scope="col">σ Low Goal</th>
                     <th onclick="sortColumn('avg_climb'); changeColRank(this);" scope="col">Average Climb Points</th>
                     <th onclick="sortColumn('sd_climb'); changeColRank(this);" scope="col">σ Climb</th>
-                    <th onclick="" scope="col">Median Points</th>
-                    <th onclick="" scope="col">TOTAL</th>
+                    <th onclick="sortColumn('med'); changeColRank(this)" scope="col">Median Points</th>
+                    <th onclick="sortColumn('sum'); changeColRank(this)" scope="col">TOTAL</th>
                     </tr>
                 </thead>
                 <tbody id="tableData"></tbody>
@@ -40,6 +40,8 @@
             var avg_highs = {{ high_avg_data | safe }};
             var avg_lows = {{ low_avg_data | safe }};
             var avg_climbs = {{ climb_avg_data | safe }};
+            var medians = {{ med_data | safe }};
+            var sums = {{ sum_data | safe }};
 
             console.log(sd_highs);
             console.log(sd_lows);
@@ -53,7 +55,9 @@
                     sd_climb: sd_climbs[i][1],
                     avg_high: avg_highs[i][1],
                     avg_low: avg_lows[i][1],
-                    avg_climb: avg_climbs[i][1]
+                    avg_climb: avg_climbs[i][1],
+                    med: medians[i][1],
+                    sum: sums[i][1]
                 });
             }
                         
@@ -73,8 +77,8 @@
                         <th scope="row">${data.sd_low.toPrecision(3)}</th>
                         <th scope="row">${data.avg_climb.toPrecision(3)}</th>
                         <th scope="row">${data.sd_climb.toPrecision(3)}</th>
-                        <th scope="row">${1}</th>
-                        <th scope="row">${1}</th>
+                        <th scope="row">${data.med.toPrecision(3)}</th>
+                        <th scope="row">${data.sum.toPrecision(3)}</th>
                         </tr>`;
                 }
 

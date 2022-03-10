@@ -93,7 +93,13 @@ def analytics_display(mode):
     
     listify = lambda l: [[str(key), l[key]] for key in l]
     avg_listify = lambda l: [[arr[0], np.average(np.array(arr[1]))] for arr in l]
+    med_listify = lambda l: [[arr[0], np.median(np.array(arr[1]))] for arr in l]
+    sum_listify = lambda l: [[arr[0], np.sum(np.array(arr[1]))] for arr in l]
 
+    graph_data_arr = []
+    for key in graph_data:
+        graph_data_arr.append([key, graph_data[key]])
+    
     final_data = listify(graph_data)
     final_radar_data = listify(radar_data)
     high_goals_data = listify(high_goals)
@@ -102,10 +108,13 @@ def analytics_display(mode):
     high_avg_data = avg_listify(high_goals_data)
     low_avg_data = avg_listify(low_goals_data)
     climb_avg_data = avg_listify(climb_data)
+    med_data = med_listify(graph_data_arr)
+    sum_data = sum_listify(graph_data_arr)
 
     sd_high = {}
     sd_low = {}
     sd_climb = {}
+
     for team in high_goals_data:
         vals = np.array(team[1])
 
@@ -135,7 +144,9 @@ def analytics_display(mode):
                 sd_climb=sd_climb_arr,
                 high_avg_data=high_avg_data,
                 low_avg_data=low_avg_data,
-                climb_avg_data=climb_avg_data
+                climb_avg_data=climb_avg_data,
+                med_data=med_data,
+                sum_data=sum_data
                 )
 
 @app.route('/analytics_teleop', methods=['GET'])
