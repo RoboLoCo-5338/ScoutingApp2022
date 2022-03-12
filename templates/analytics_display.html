@@ -9,7 +9,7 @@
     <br>
     <!-- div for all charts and graphs and whatnot -->
     <div>
-        <h2>LeaderBoard</h2>
+        <h2>Leaderboard</h2>
         <br>
         <h4 id="rank-by"></h4>
         <div style="margin-right: 20%;">
@@ -78,7 +78,7 @@
                         <th scope="row">${data.avg_climb.toPrecision(3)}</th>
                         <th scope="row">${data.sd_climb.toPrecision(3)}</th>
                         <th scope="row">${data.med.toPrecision(3)}</th>
-                        <th scope="row">${data.sum.toPrecision(3)}</th>
+                        <th scope="row">${data.sum}</th>
                         </tr>`;
                 }
 
@@ -130,7 +130,7 @@
             // }
             for (let i = 0; i < vec.length; i++){
                 teams.push(vec[i][0])
-                total_points = vec[i][1][0][0] + vec[i][1][0][1] + vec[i][1][0][2]
+                total_points = 2*vec[i][1][0][0] + vec[i][1][0][1] + vec[i][1][0][2]
                 bar_data.push(total_points)
             }
 
@@ -215,10 +215,14 @@
                     var sd_highs = {{ sd_high[i] | safe }};
                     var sd_lows = {{ sd_low[i] | safe }};
                     var sd_climbs = {{ sd_climb[i] | safe }};
+                    var meds = {{ med_data[i] | safe }};
+                    var sums = {{ sum_data[i] | safe }};
 
                     var sd_high = sd_highs[1];
                     var sd_low = sd_lows[1];
                     var sd_climb = sd_climbs[1];
+                    var med = meds[1];
+                    var sum = sums[1];
 
                     data.sort();
 
@@ -238,8 +242,8 @@
                     }
 
                     document.getElementById("avg_points" + name).innerText = (total/data.length).toPrecision(3); 
-                    document.getElementById("med_points" + name).innerText = med_point; 
-                    document.getElementById("total_points" + name).innerText = total; 
+                    document.getElementById("med_points" + name).innerText = med.toPrecision(3);
+                    document.getElementById("total_points" + name).innerText = sum; 
 
                     document.getElementById("sd_high" + name).innerText = sd_high.toPrecision(3); 
                     document.getElementById("sd_low" + name).innerText = sd_low.toPrecision(3); 
@@ -314,13 +318,5 @@
         </div>
     </div>
     <br>
-    <br>
-    <h3>Search Team Data</h3>
-    <br>
-    <form method="POST" action="/" class="row g-3">
-        <label for="inputPassword2" class="visually-hidden">Team Name</label>
-        <input type="text" name="team_name" class="form-control" id="inputPassword2" placeholder="Team Name">
-        <button type="submit" class="btn btn-primary mb-3">Search Data</button>
-    </form>
 </div>
 {% endblock %}
