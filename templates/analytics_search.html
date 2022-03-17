@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="margin-left: 10%; margin-right: 10%;">
+<br>
+<br>
+<h2 style="margin-left: 0%">Search For Team Data</h2>
+<br>
+<br>
+<div>
+    <form method="POST" action="/analytics_search" class="row g-3" style="margin-left: 0%; margin-right: 0%;">
+        <label for="inputPassword2" class="visually-hidden"></label>
+        <input type="text" name="team_name" class="form-control" id="inputPassword2" placeholder="Team Name" required pattern="[0-9\.]+">
+        <button type="submit" class="btn btn-primary mb-3">Search</button>
+    </form>
+</div>
+<br>
+<br>
+<h2>Team {{ final_data[idx][0] }}</h2>
+<canvas id="searched" width="770" height="400"></canvas>
+<br>
+<br>
+<script>
+    var vals = {{ final_data | safe }};
+    var highs = {{ high_goals_data | safe }};
+    var lows = {{ low_goals_data | safe }};
+    var climbs = {{ climb_data | safe }};
+    var idx = {{ idx | safe }};
+    var x = [];
+
+    for (let i = 0; i < vals[idx][1].length; i++){
+        x.push(i+1);
+    }
+
+    var context = document.getElementById('searched').getContext("2d");
+    var lineChart = new Chart(context, {
+        type: "line",
+        data: {
+            labels: x,
+            datasets: [
+                {
+                    label: "Calculated Total Score",
+                    data: vals[idx][1],
+                    fill: false,
+                    borderColor: "rgb(50, 92, 168)",
+                    lineTension: 0.1
+                },
+                {
+                    label: "High Goal",
+                    data: highs[idx][1],
+                    fill: false,
+                    borderColor: "rgb(100, 0, 168)",
+                    lineTension: 0.1
+                },
+                {
+                    label: "Low Goal",
+                    data: lows[idx][1],
+                    fill: false,
+                    borderColor: "rgb(255, 202, 0)",
+                    lineTension: 0.1
+                },
+                {
+                    label: "Climb",
+                    data: climbs[idx][1], 
+                    fill: false,
+                    borderColor: "rgb(255, 150, 0)",
+                    lineTension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: false
+        }
+    });
+</script>
+</div>
+{% endblock %}

@@ -1,0 +1,416 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+<br>
+<h1 style="margin-left: 10%" id="team_name_title">Team {{team_name}}</h1>
+<hr style="margin-left: 10%; margin-right: 10%;">
+<br>
+<div>
+    <!-- adding button and heading to show the digits -->
+    <!-- increment() and decrement() functions on button click-->
+    <u>
+        <h2 style="margin-left: 10%">Autonomous</h2>
+    </u>
+    <br>
+    <h3 style="margin-left: 10%">Goals Scored</h3>
+    <br>
+    <div style="width: 50%; flex: 1; margin-right: 5%; margin-left: 2.5%;">
+        <button onclick="increment_auto1()" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">High Goal</button>
+        <button onclick="decrement_auto1()" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%">Oopsy</button>
+        <h2 id="counting1_auto" style="float: right; margin-right: 25%;"></h2>
+        <br>
+        <br>
+        <button onclick="increment_auto2()" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">Low Goal</button>
+        <button onclick="decrement_auto2()" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%;">Oopsy</button>
+        <h3 id="counting2_auto" style="float: right; margin-right: 25%;"></h2>
+    </div>
+    <br>
+    <h3 style="margin-left: 10%">Taxi Pts</h3>
+    <br>
+    <button onclick="toggle_taxi()" class="btn btn-primary btn-lg" style="margin-left: 12%;">Taxi Achieved</button>
+    <br>
+    <br>
+    <br>
+    <hr style = "margin-left: 10%; margin-right: 10%">
+    <u>
+        <h2 style="margin-left: 10%">Teleop</h2>
+    </u>
+    <br>
+    <h2 style="margin-left: 10%">Goals Scored</h2>
+    <br>
+    <div style="display: flex">
+        <div style="width: 50%; flex: 1; margin-right: 5%; margin-left: 2.5%;">
+            <button onclick="increment()" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">High Goal</button>
+            <button onclick="decrement1()" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%">Oopsy</button>
+            <h2 id="counting" style="float: right; margin-right: 25%;"></h2>
+            <br>
+            <br>
+            <button onclick="increment2()" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">Low Goal</button>
+            <button onclick="decrement2()" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%;">Oopsy</button>
+            <h2 id="counting2" style="float: right; margin-right: 25%;"></h2>
+            <br>
+            <br>
+            <br>
+            <h2 style="margin-left: 20%">Climb</h2>
+            <br>
+            <div style = "margin-left: 20%; display: inline-block;">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" onclick = "increment_climb(this)" id = "4" class="btn btn-secondary climb">Low</button>
+                    <button type="button" onclick = "increment_climb(this)" id = "6" class="btn btn-secondary climb">Mid</button>
+                    <button type="button" onclick = "increment_climb(this)" id = "10" class="btn btn-secondary climb">High</button>
+                    <button type="button" onclick = "increment_climb(this)" id = "15" class="btn btn-secondary climb">Traversal</button>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <h2 style="margin-left: 20%">Defense</h2>
+            <br>
+            <div style = "margin-left: 20%; display: inline-block;">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" onclick = "check_defense(this)" id = "defense_yes" class="btn btn-secondary">Yes</button>
+                    <button type="button" onclick = "check_defense(this)" id = "defense_no" class="btn btn-secondary">No</button>
+                </div>
+            </div>
+            <h2 style="margin-left: 20%; margin-top: 10%">Penalties</h2>
+            <br>
+            <div style = "margin-left: 20%; display: inline-block;">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" id = "R" onclick = "increment_penalty(this)" class="btn btn-danger">Red Card</button>
+                    <button type="button" id = "Y" onclick = "increment_penalty(this)" class="btn btn-warning">Yellow Card</button>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div style = "margin-left: 20%; display: inline-block;">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" id = "TF" onclick = "update_foul(this)" class="btn btn-danger">Tech Foul</button>
+                    <button type="button" id = "F" onclick = "update_foul(this)" class="btn btn-warning">Foul</button>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div style = "margin-left: 20%; display: inline-block;">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" id = "stagnant" onclick = "update_move_bool(this)" class="btn btn-danger">ROBOT DID NOT MOVE</button>
+                </div>
+            </div>
+        </div>
+        <div style="width: 50%; float: right; margin-top: 11%;">
+            <h2>{{ team_name }} | Preview</h2>
+            <br>
+            <div style="margin-right: 20%;">
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                        <th scope="col">Descriptors</th>
+                        <th scope="col">Desc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Shot Points</th>
+                            <td id = "table_shot_points"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Penalties</th>
+                            <td id = "table_penalties"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Climb</th>
+                            <td id = "table_climb"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Tech Foul</th>
+                            <td id = "TF-table"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Foul</th>
+                            <td id = "F-table"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Didnt Move</th>
+                            <td id = "no-move"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">TOTAL</th>
+                            <td id = "table_total_points"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <h2 style="margin-left: 10%; margin-top: 3%;">Notes</h2>
+    <br>
+    <!-- onkeydown="return event.key != 'Enter';" -->
+    <form id="team_notes" method="POST" action="/" class="row g-3" style="margin-left: 10%; margin-right: 10%;">
+        <!-- <label for="notes_entry" class="visually-hidden">Extra Notes</label> -->
+        <!-- <input type="text" name="team_notes_input" class="form-control" id="notes_entry" placeholder="Extra Notes"> -->
+        <textarea name="team_notes_input" id="notes_entry" rows="2" placeholder="Extra Notes"></textarea>
+        <!-- <button onclick = "submit()" type="submit" class="btn btn-primary mb-3" name="notes" value="notes">Save Session Notes</button> -->
+    </form>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <button type="submit" onclick="submit(); refresh();" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 10%; display: inline-block;">Submit Session</button>
+
+</div>
+<!-- JavaScript code-->
+<script>
+    //initialising a variable name data
+    var high_goal = 0;
+    var low_goal = 0;
+    var climb = 0;
+    var penalty = "-";
+    var defense = false;
+    var auto = false;
+    var otherAutoElemId;
+    var otherDefenseElemId;
+    var high_goal_auto = 0;
+    var low_goal_auto = 0;
+    var taxi = false;
+    var tech_foul = false;
+    var foul = false;
+    var stagnant = false;
+
+    function selected(elem){
+        elem.style.background = "#0d6efd";
+        elem.style.borderColor = "#0d6efd";
+    }
+
+    function deselected(elem){
+        elem.style.background = "#6b747c";
+        elem.style.borderColor = "#6b747c";
+    }
+
+    function check_auto(elem){
+	    if (elem.id === "auto_yes"){
+            auto = true;
+            otherAutoElemId = "auto_no";
+        } else {
+            auto = false;
+            otherAutoElemId = "auto_yes";
+        }
+        deselected(document.getElementById(otherAutoElemId));
+        selected(elem);
+    }
+
+    function refresh(){
+	    window.scrollTo(0,0);
+        setTimeout(() => {location.reload()},600);
+    }
+
+    function check_defense(elem){
+        if (elem.id === "defense_yes"){
+            defense = true;
+            otherDefenseElemId = "defense_no";
+        } else {
+            defense = false;
+            otherDefenseElemId = "defense_yes";
+        }
+        deselected(document.getElementById(otherDefenseElemId));
+        selected(elem);
+    }
+
+    //printing default value of data that is 0 in h2 tag
+    document.getElementById("counting").innerText = high_goal;
+    document.getElementById("counting2").innerText = low_goal;
+    document.getElementById("counting1_auto").innerText = high_goal;
+    document.getElementById("counting2_auto").innerText = low_goal;
+
+    function update(){
+        var shot_points = (2*high_goal) + low_goal;
+
+        document.getElementById("table_shot_points").innerText = shot_points; 
+        document.getElementById("table_climb").innerText = climb;
+        document.getElementById("table_penalties").innerText = penalty;
+        console.log(high_goal + low_goal);
+        console.log(high_goal + low_goal + climb);
+        if (auto){
+            var local_total = shot_points;
+        } else if (auto == false){
+            var local_total = shot_points + climb;
+        }
+        document.getElementById("table_total_points").innerText = local_total;
+    }
+
+    // taxi points toggle
+    function toggle_taxi() {
+        taxi = !taxi;
+        update();
+    }
+
+    //creation of increment function
+    function increment() {
+        high_goal += 1;
+        document.getElementById("counting").innerText = high_goal;
+        update();
+    }
+    function increment2() {
+        low_goal += 1;
+        document.getElementById("counting2").innerText = low_goal;
+        update();
+    }
+    function increment_auto1() {
+        high_goal_auto += 1;
+        document.getElementById("counting1_auto").innerText = high_goal_auto;
+        update();
+    }
+    function increment_auto2() {
+        low_goal_auto += 1;
+        document.getElementById("counting2_auto").innerText = low_goal_auto;
+        update();
+    }
+
+    function increment_climb(elem) {
+        climb = parseInt(elem.id);
+
+        var climbButtonElements = document.getElementsByClassName('btn btn-secondary climb');
+	    for (var i = 0; i < climbButtonElements.length; i++){
+		    deselected(climbButtonElements[i]);
+    	}
+        selected(elem);
+
+        update();
+    }
+    
+    function increment_penalty(elem) {
+        var new_penalty = elem.id;
+        
+        if (new_penalty === penalty){
+            penalty = "-"
+        } else {
+            penalty = new_penalty;
+        }
+
+        document.getElementById("table_penalties").innerText = penalty; 
+    }
+    
+    function update_foul(elem) {
+        var foul_type = elem.id;
+        console.log(foul_type);
+        
+        if (foul_type === "TF"){
+            tech_foul = !tech_foul;
+            document.getElementById("TF-table").innerText = tech_foul; 
+        } else if (foul_type == "F"){
+            foul = !foul;
+            document.getElementById("F-table").innerText = foul; 
+        }
+    }
+
+    function update_move_bool(elem) {
+        stagnant = !stagnant;
+        
+        document.getElementById("no-move").innerText = stagnant; 
+    }
+    
+    function submit(){
+        var team_data = {
+            'high_goal': high_goal,
+            'low_goal': low_goal, 
+            'climb_points': climb,
+            'penalty': penalty,
+            'defense': defense,
+            'auto_high': high_goal_auto,
+            'auto_low': low_goal_auto,
+            'taxi': taxi,
+            'tech_foul': tech_foul,
+            'foul': foul
+            }
+
+        var elements = document.getElementById("team_notes").elements;
+        for(var i = 0 ; i < elements.length ; i++){
+            var item = elements.item(i);
+            team_data['notes'] = item.value;
+        }
+        
+        // alert(JSON.stringify(team_data, null, 4));
+
+        // document.getElementById("demo").innerHTML = JSON.stringify(obj);
+
+        fetch("/observing",
+            {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify(team_data)}).then(res => {console.log("Request complete! response:", res);
+            }
+        );
+        // $.ajax({
+        // url: Flask.url_for('/observing'),
+        // type: 'POST',
+        // data: JSON.stringify(team_data),   // converts js value to JSON string
+        // })
+        // .done(function(result){     // on success get the return object from server
+        //     console.log(result)     // do whatever with it. In this case see it in console
+        // })
+    }
+
+    //creation of decrement function
+    function decrement1() {
+        high_goal = high_goal - 1;
+        document.getElementById("counting").innerText = high_goal;
+        update();
+    }
+    function decrement2() {
+        low_goal = low_goal - 1;
+        document.getElementById("counting2").innerText = low_goal;
+        update();
+    }
+    function decrement_auto1() {
+        high_goal_auto = high_goal_auto - 1;
+        document.getElementById("counting1_auto").innerText = high_goal_auto;
+        update();
+    }
+    function decrement_auto2() {
+        low_goal_auto = low_goal_auto - 1;
+        document.getElementById("counting2_auto").innerText = low_goal_auto;
+        update();
+    }
+</script>
+<form method = "POST" action='/observing' style = "margin-left: 10%">
+    <!-- <form method ="post" action="/observing">
+        <button type="submit" name="ball_shot" value="ball_shot" class="btn btn-primary btn-lg">Ball Shot</button>&nbsp;&nbsp;
+        <button type="submit" name="accident" value="accident" class="btn btn-primary btn-lg">Accident Happened</button>&nbsp;&nbsp;
+        <button type="submit" name="e1" value="e1" class="btn btn-primary btn-lg">Event 1</button>&nbsp;&nbsp;
+        <button type="submit" name="e2" value="e2" class="btn btn-primary btn-lg">Event 2</button>&nbsp;&nbsp;
+    </form>  -->
+    <!-- <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Team Name</label>
+        <br>
+        <input type="button" value="Team1">
+        <input type="button" value="Team2">
+        <input type="button" value="Team3">
+        <input type="button" value="Team4">
+        <br>
+        <br>
+        <br>
+        <input type="text" class="form-control" id="exampleInputPassword1" name = "team_name">
+        <label for="exampleInputPassword1" class="form-label">Notes on Team</label>
+        <br>
+        <input type="button" value="Ball Shot" name="ball_shot">
+        <input type="button" value="Some Action" name="">
+        <input type="button" value="Some Action">
+        <input type="button" value="Some Action">
+        <input type="button" value="Some Action">
+        <input type="text" class="form-control" id="exampleInputPassword1" name = "notes">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Crop Type</label></br>
+            <select name="type" id="crops">
+        </select>
+    </div> -->
+    <!--
+    <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div> -->
+    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+    </br></br>
+</form>
+{% endblock %}
