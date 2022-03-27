@@ -23,10 +23,12 @@ def init_sheet(sheet_num):
 
     client = gspread.authorize(creds)
 
+    sheet_name = "RoboLoco-Competition-Scouting"
+
     if sheet_num == 1:
-        sheet = client.open("RoboLoco-Scouting-Test").worksheet('teleop')
+        sheet = client.open(sheet_name).worksheet('teleop')
     if sheet_num == 2:
-        sheet = client.open("RoboLoco-Scouting-Test").worksheet('autonomous')
+        sheet = client.open(sheet_name).worksheet('autonomous')
 
     return sheet
 
