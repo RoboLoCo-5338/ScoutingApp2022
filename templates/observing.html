@@ -15,19 +15,26 @@
     <h3 style="margin-left: 10%">Goals Scored</h3>
     <br>
     <div style="width: 50%; flex: 1; margin-right: 5%; margin-left: 2.5%;">
-        <button onclick="increment_auto1()" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">High Goal</button>
-        <button onclick="decrement_auto1()" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%">Oopsy</button>
+        <button onclick="increment_auto1(1)" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">High Goal</button>
+        <button onclick="increment_auto1(-1)" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%">Oopsy</button>
         <h2 id="counting1_auto" style="float: right; margin-right: 25%;"></h2>
         <br>
         <br>
-        <button onclick="increment_auto2()" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">Low Goal</button>
-        <button onclick="decrement_auto2()" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%;">Oopsy</button>
+        <button onclick="increment_auto2(1)" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">Low Goal</button>
+        <button onclick="increment_auto2(-1)" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%;">Oopsy</button>
         <h3 id="counting2_auto" style="float: right; margin-right: 25%;"></h2>
     </div>
     <br>
-    <h3 style="margin-left: 10%">Taxi Pts</h3>
+    <h3 style="margin-left: 10%">Taxi Achieved</h3>
     <br>
-    <button onclick="toggle_taxi()" class="btn btn-primary btn-lg" style="margin-left: 12%;">Taxi Achieved</button>
+    <div style = "margin-left: 10%; display: inline-block;">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" onclick = "check_taxi(this)" id = "taxi_yes" class="btn btn-secondary">Yes</button>
+            <button type="button" onclick = "check_taxi(this)" id = "taxi_no" class="btn btn-secondary">No</button>
+        </div>
+    </div>
+    <br>
+    <!-- <button onclick="toggle_taxi()" class="btn btn-primary btn-lg" style="margin-left: 12%;">Taxi Achieved</button> -->
     <br>
     <br>
     <br>
@@ -40,13 +47,13 @@
     <br>
     <div style="display: flex">
         <div style="width: 50%; flex: 1; margin-right: 5%; margin-left: 2.5%;">
-            <button onclick="increment()" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">High Goal</button>
-            <button onclick="decrement1()" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%">Oopsy</button>
+            <button onclick="increment(1)" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">High Goal</button>
+            <button onclick="increment(-1)" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%">Oopsy</button>
             <h2 id="counting" style="float: right; margin-right: 25%;"></h2>
             <br>
             <br>
-            <button onclick="increment2()" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">Low Goal</button>
-            <button onclick="decrement2()" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%;">Oopsy</button>
+            <button onclick="increment2(1)" class="btn btn-primary btn-lg" name="balls_shot" style="margin-left: 20%; display: inline-block;">Low Goal</button>
+            <button onclick="increment2(-1)" class="btn btn-primary btn-lg" style="display: inline-block; float: right; margin-right: 5%;">Oopsy</button>
             <h2 id="counting2" style="float: right; margin-right: 25%;"></h2>
             <br>
             <br>
@@ -54,11 +61,12 @@
             <h2 style="margin-left: 20%">Climb</h2>
             <br>
             <div style = "margin-left: 20%; display: inline-block;">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" onclick = "increment_climb(this)" id = "4" class="btn btn-secondary climb">Low</button>
-                    <button type="button" onclick = "increment_climb(this)" id = "6" class="btn btn-secondary climb">Mid</button>
-                    <button type="button" onclick = "increment_climb(this)" id = "10" class="btn btn-secondary climb">High</button>
-                    <button type="button" onclick = "increment_climb(this)" id = "15" class="btn btn-secondary climb">Traversal</button>
+                <div class="btn-group climb" role="group" aria-label="Basic example">
+                    <button type="button" onclick = "increment_climb(this)" id = "0" class="btn btn-secondary">None</button>
+                    <button type="button" onclick = "increment_climb(this)" id = "4" class="btn btn-secondary">Low</button>
+                    <button type="button" onclick = "increment_climb(this)" id = "6" class="btn btn-secondary">Mid</button>
+                    <button type="button" onclick = "increment_climb(this)" id = "10" class="btn btn-secondary">High</button>
+                    <button type="button" onclick = "increment_climb(this)" id = "15" class="btn btn-secondary">Traversal</button>
                 </div>
             </div>
             <br>
@@ -76,25 +84,27 @@
             <br>
             <div style = "margin-left: 20%; display: inline-block;">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" id = "R" onclick = "increment_penalty(this)" class="btn btn-danger">Red Card</button>
-                    <button type="button" id = "Y" onclick = "increment_penalty(this)" class="btn btn-warning">Yellow Card</button>
+                    <button type="button" id = "R" onclick = "increment_penalty(this)" class="btn btn-secondary">Red Card</button>
+                    <button type="button" id = "Y" onclick = "increment_penalty(this)" class="btn btn-secondary">Yellow Card</button>
                 </div>
             </div>
             <br>
             <br>
             <br>
-            <div style = "margin-left: 20%; display: inline-block;">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" id = "TF" onclick = "update_foul(this)" class="btn btn-danger">Tech Foul</button>
-                    <button type="button" id = "F" onclick = "update_foul(this)" class="btn btn-warning">Foul</button>
-                </div>
-            </div>
+            <button onclick="foul_increment(1)" class="btn btn-warning" name="balls_shot" style="margin-left: 20%; display: inline-block;">Foul</button>
+            <button onclick="foul_increment(-1)" class="btn btn-warning" style="display: inline-block; float: right; margin-right: 5%">Oopsy</button>
+            <h2 id="foul_counting" style="float: right; margin-right: 25%;">0</h2>
+            <br>
+            <br>
+            <button onclick="tech_increment(1)" class="btn btn-danger" name="balls_shot" style="margin-left: 20%; display: inline-block;">Tech Foul</button>
+            <button onclick="tech_increment(-1)" class="btn btn-danger" style="display: inline-block; float: right; margin-right: 5%;">Oopsy</button>
+            <h2 id="tech_counting" style="float: right; margin-right: 25%;">0</h2>
             <br>
             <br>
             <br>
             <div style = "margin-left: 20%; display: inline-block;">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" id = "stagnant" onclick = "update_move_bool(this)" class="btn btn-danger">ROBOT DID NOT MOVE</button>
+                    <button type="button" id = "immobile" onclick = "update_move_bool(this)" class="btn btn-secondary">ROBOT DID NOT MOVE</button>
                 </div>
             </div>
         </div>
@@ -105,33 +115,41 @@
                 <table class="table table-dark table-striped">
                     <thead>
                         <tr>
-                        <th scope="col">Descriptors</th>
-                        <th scope="col">Desc</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Value</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th scope="row">Shot Points</th>
-                            <td id = "table_shot_points"></td>
+                            <th scope="row">Taxi</th>
+                            <td id = "table_taxi"></td>
                         </tr>
                         <tr>
-                            <th scope="row">Penalties</th>
-                            <td id = "table_penalties"></td>
+                            <th scope="row">Auto Cargo Points</th>
+                            <td id = "table_auto_points"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Cargo Points</th>
+                            <td id = "table_shot_points"></td>
                         </tr>
                         <tr>
                             <th scope="row">Climb</th>
                             <td id = "table_climb"></td>
                         </tr>
                         <tr>
-                            <th scope="row">Tech Foul</th>
+                            <th scope="row">Penalties</th>
+                            <td id = "table_penalties"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Tech Fouls</th>
                             <td id = "TF-table"></td>
                         </tr>
                         <tr>
-                            <th scope="row">Foul</th>
+                            <th scope="row">Fouls</th>
                             <td id = "F-table"></td>
                         </tr>
                         <tr>
-                            <th scope="row">Didnt Move</th>
+                            <th scope="row">Didn't Move</th>
                             <td id = "no-move"></td>
                         </tr>
                         <tr>
@@ -169,40 +187,40 @@
     var penalty = "-";
     var defense = false;
     var auto = false;
-    var otherAutoElemId;
     var otherDefenseElemId;
+    var otherTaxiElemId;
     var high_goal_auto = 0;
     var low_goal_auto = 0;
     var taxi = false;
-    var tech_foul = false;
-    var foul = false;
-    var stagnant = false;
+    var taxi_points = 0;
+    var tech_foul = 0;
+    var foul = 0;
+    var immobile = false;
 
     function selected(elem){
-        elem.style.background = "#0d6efd";
-        elem.style.borderColor = "#0d6efd";
+        // elem.style.background = "#0d6efd";
+        // elem.style.borderColor = "#0d6efd";
+        elem.className = "btn btn-primary";
     }
 
     function deselected(elem){
-        elem.style.background = "#6b747c";
-        elem.style.borderColor = "#6b747c";
+        // elem.style.background = "#6b747c";
+        // elem.style.borderColor = "#6b747c";
+        elem.className = "btn btn-secondary";
     }
 
-    function check_auto(elem){
-	    if (elem.id === "auto_yes"){
-            auto = true;
-            otherAutoElemId = "auto_no";
-        } else {
-            auto = false;
-            otherAutoElemId = "auto_yes";
-        }
-        deselected(document.getElementById(otherAutoElemId));
-        selected(elem);
+    function make_danger(elem){
+        elem.className = "btn btn-danger";
+    }
+    
+    function make_warning(elem){
+        elem.className = "btn btn-warning";
     }
 
     function refresh(){
-	    window.scrollTo(0,0);
-        setTimeout(() => {location.reload()},600);
+	    // window.scrollTo(0,0);
+        // setTimeout(() => {location.reload()},600);
+        location.href = '/';
     }
 
     function check_defense(elem){
@@ -225,44 +243,51 @@
 
     function update(){
         var shot_points = (2*high_goal) + low_goal;
+        var auto_points = 4*high_goal_auto + 2*low_goal_auto;
 
-        document.getElementById("table_shot_points").innerText = shot_points; 
+        document.getElementById("table_shot_points").innerText = shot_points;
+        document.getElementById("table_auto_points").innerText = auto_points;
+        document.getElementById("table_taxi").innerText = taxi_points;
         document.getElementById("table_climb").innerText = climb;
-        document.getElementById("table_penalties").innerText = penalty;
         console.log(high_goal + low_goal);
         console.log(high_goal + low_goal + climb);
-        if (auto){
-            var local_total = shot_points;
-        } else if (auto == false){
-            var local_total = shot_points + climb;
-        }
+        
+        var local_total = shot_points + climb + taxi_points + auto_points;
         document.getElementById("table_total_points").innerText = local_total;
     }
 
-    // taxi points toggle
-    function toggle_taxi() {
-        taxi = !taxi;
+    function check_taxi(elem){
+        if (elem.id === "taxi_yes"){
+            taxi = true;
+            otherTaxiElemId = "taxi_no";
+        } else {
+            taxi = false;
+            otherTaxiElemId = "taxi_yes";
+        }
+        deselected(document.getElementById(otherTaxiElemId));
+        selected(elem);
+        taxi_points = 2*(taxi ? 1 : 0);
         update();
     }
 
     //creation of increment function
-    function increment() {
-        high_goal += 1;
+    function increment(amount) {
+        high_goal += amount;
         document.getElementById("counting").innerText = high_goal;
         update();
     }
-    function increment2() {
-        low_goal += 1;
+    function increment2(amount) {
+        low_goal += amount;
         document.getElementById("counting2").innerText = low_goal;
         update();
     }
-    function increment_auto1() {
-        high_goal_auto += 1;
+    function increment_auto1(amount) {
+        high_goal_auto += amount;
         document.getElementById("counting1_auto").innerText = high_goal_auto;
         update();
     }
-    function increment_auto2() {
-        low_goal_auto += 1;
+    function increment_auto2(amount) {
+        low_goal_auto += amount;
         document.getElementById("counting2_auto").innerText = low_goal_auto;
         update();
     }
@@ -270,12 +295,11 @@
     function increment_climb(elem) {
         climb = parseInt(elem.id);
 
-        var climbButtonElements = document.getElementsByClassName('btn btn-secondary climb');
+        var climbButtonElements = document.querySelectorAll('.btn-group.climb > button');
 	    for (var i = 0; i < climbButtonElements.length; i++){
 		    deselected(climbButtonElements[i]);
     	}
         selected(elem);
-
         update();
     }
     
@@ -284,8 +308,17 @@
         
         if (new_penalty === penalty){
             penalty = "-"
+            deselected(elem);
         } else {
             penalty = new_penalty;
+            if (new_penalty === 'R'){
+                make_danger(elem);
+                otherPenaltyElem = document.getElementById('Y');
+            } else {
+                make_warning(elem);
+                otherPenaltyElem = document.getElementById('R');
+            }
+            deselected(otherPenaltyElem);
         }
 
         document.getElementById("table_penalties").innerText = penalty; 
@@ -304,10 +337,27 @@
         }
     }
 
+    function foul_increment(amount) {
+        foul += amount;
+        document.getElementById("F-table").innerText = foul;
+        document.getElementById("foul_counting").innerText = foul;
+        update();
+    }
+    function tech_increment(amount) {
+        tech_foul += amount;
+        document.getElementById("TF-table").innerText = tech_foul;
+        document.getElementById("tech_counting").innerText = tech_foul;
+        update();
+    }
+
     function update_move_bool(elem) {
-        stagnant = !stagnant;
-        
-        document.getElementById("no-move").innerText = stagnant; 
+        immobile = !immobile;
+        document.getElementById("no-move").innerText = immobile;
+        if (immobile){
+            make_danger(elem);
+        } else {
+            deselected(elem);
+        }
     }
     
     function submit(){
@@ -321,7 +371,8 @@
             'auto_low': low_goal_auto,
             'taxi': taxi,
             'tech_foul': tech_foul,
-            'foul': foul
+            'foul': foul,
+            'move_bool': !immobile
             }
 
         var elements = document.getElementById("team_notes").elements;
@@ -351,27 +402,6 @@
         // })
     }
 
-    //creation of decrement function
-    function decrement1() {
-        high_goal = high_goal - 1;
-        document.getElementById("counting").innerText = high_goal;
-        update();
-    }
-    function decrement2() {
-        low_goal = low_goal - 1;
-        document.getElementById("counting2").innerText = low_goal;
-        update();
-    }
-    function decrement_auto1() {
-        high_goal_auto = high_goal_auto - 1;
-        document.getElementById("counting1_auto").innerText = high_goal_auto;
-        update();
-    }
-    function decrement_auto2() {
-        low_goal_auto = low_goal_auto - 1;
-        document.getElementById("counting2_auto").innerText = low_goal_auto;
-        update();
-    }
 </script>
 <form method = "POST" action='/observing' style = "margin-left: 10%">
     <!-- <form method ="post" action="/observing">

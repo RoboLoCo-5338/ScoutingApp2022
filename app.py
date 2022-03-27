@@ -49,7 +49,7 @@ def home():
     if request.method == 'GET':
         return render_template('home.html')
 
-def analytics_display(mode, for_search):
+def analytics_display(mode, for_search=False):
     if mode == 'teleop':
         sheet = init_sheet(1)
     else:
@@ -76,9 +76,9 @@ def analytics_display(mode, for_search):
 
         high_goal = int(record['high_goal'])
         low_goal = int(record['low_goal'])
-        climb = int(record['climb'])
+        climb = int(record['climb']) if mode == 'teleop' else 0
 
-        total_score = (2*high_goal) + low_goal + climb
+        total_score = high_goal + low_goal + climb
 
         graph_data[team_name].append(total_score)
         high_goals[team_name].append(high_goal)
@@ -134,7 +134,7 @@ def analytics_display(mode, for_search):
     sd_climb_arr = listify(sd_climb)
 
     if for_search:
-        return len(final_data), final_data, final_radar_data,high_goals_data,low_goals_data,climb_data,sd_high_arr,sd_low_arr,sd_climb_arr,high_avg_data,low_avg_data,climb_avg_data,med_data,sum_data
+        return len(final_data),final_data,final_radar_data,high_goals_data,low_goals_data,climb_data,sd_high_arr,sd_low_arr,sd_climb_arr,high_avg_data,low_avg_data,climb_avg_data,med_data,sum_data
     else:
         return render_template('analytics_display.html', 
                     len=len(final_data), 
@@ -155,11 +155,11 @@ def analytics_display(mode, for_search):
 
 @app.route('/analytics_teleop', methods=['GET', 'POST'])
 def analytics_display_teleop():
-    return analytics_display('teleop', False)
+    return analytics_display('teleop')
 
 @app.route('/analytics_auto', methods=['GET'])
 def analytics_display_auto():
-    return analytics_display('autonomous', False)
+    return analytics_display('autonomous')
 
 @app.route('/analytics_search', methods=['GET', 'POST'])
 def analytics_search():
@@ -220,7 +220,8 @@ def observation():
             'auto_low': request.json['auto_low'],
             'taxi': request.json['taxi'],
             'tech_foul': request.json['tech_foul'],
-            'foul': request.json['foul']
+            'foul': request.json['foul'],
+            'move_bool': request.json['move_bool']
         }
 
         print(request.json)
@@ -238,6 +239,7 @@ def observation():
 
         # sheets API update calls
         # CHECK MULTIPLIERS FOR AUTO HERE
+        data['high_goal'] *= 2        
         data['auto_high'] *= 4
         data['auto_low'] *= 2
 
@@ -254,10 +256,14 @@ def observation():
         sheet.update_cell(team_index, 6, data['defense'])
         sheet.update_cell(team_index, 7, data['tech_foul'])
         sheet.update_cell(team_index, 8, data['foul'])
-        sheet.update_cell(team_index, 9, True)
+        sheet.update_cell(team_index, 9, data['move_bool'])
         sheet.update_cell(team_index, 10, data['notes'])
 
         sheet = init_sheet(sheet_num=2)
+        
+        col1 = sheet.col_values(1)
+        team_index = len(col1) + 1
+
         sheet.update_cell(team_index, 1, data['team_name'])
         sheet.update_cell(team_index, 2, data['auto_high'])
         sheet.update_cell(team_index, 3, data['auto_low'])
