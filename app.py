@@ -226,16 +226,16 @@ def observation():
 
         print(request.json)
 
-        # df = pd.read_csv('./observations/BunnyBots.csv')
-        # df = pd.read_csv('./observations/BunnyBots.csv')
+        csv_file = './observations/BunnyBots.csv'
+        df = pd.read_csv(csv_file)
 
-        # df = df.append(pd.DataFrame(data), ignore_index=True)
+        df = df.append(pd.DataFrame(data), ignore_index=True)
 
-        # df.to_csv('./observations/BunnyBots.csv', index=False) 
+        df.to_csv(csv_file, index=False)
 
-        # df = pd.DataFrame(data)
+        df = pd.DataFrame(data)
 
-        # df.to_csv(f'./observations/{name}')
+        df.to_csv(f'./observations/{name}')
 
         # sheets API update calls
         # CHECK MULTIPLIERS FOR AUTO HERE
