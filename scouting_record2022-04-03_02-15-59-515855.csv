@@ -1,0 +1,5 @@
+time,team_name,high_goal,low_goal,climb,penalty,defense,auto_high,auto_low,taxi,tech_foul,foul,move_bool,notes
+2022-04-03_02-15-59-515855,333,0,0,4,-,False,20,0,True,0,0,True,brilliant
+2022-04-03_02-16-19-669595,777,0,5,6,-,False,0,8,False,0,0,True,"stuff
+and new line
+here"

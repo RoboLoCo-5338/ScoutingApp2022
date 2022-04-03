@@ -8,6 +8,8 @@ import time
 import pandas as pd
 import math
 import numpy as np
+import os
+from datetime import datetime
 
 balls_shot = Value('i', 0)
 accidents = Value('i', 0)
@@ -202,40 +204,30 @@ def observation():
         for key, val in request.form.items():
             if key == "notes":
                 notes = val
-             
-        # sheet = init_sheet()
 
         with open('./team_name.txt', 'r') as f:
             name = f.read()
+        
+        now_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%f')
 
         data = {
+            'time': now_time,
             'team_name': name,
             'high_goal': request.json['high_goal'],
             'low_goal': request.json['low_goal'],
             'climb': request.json['climb_points'],
             'penalty': request.json['penalty'],
-            'notes': request.json['notes'],
             'defense': request.json['defense'],
             'auto_high': request.json['auto_high'],
             'auto_low': request.json['auto_low'],
             'taxi': request.json['taxi'],
             'tech_foul': request.json['tech_foul'],
             'foul': request.json['foul'],
-            'move_bool': request.json['move_bool']
+            'move_bool': request.json['move_bool'],
+            'notes': request.json['notes']
         }
 
         print(request.json)
-
-        csv_file = './observations/BunnyBots.csv'
-        df = pd.read_csv(csv_file)
-
-        df = df.append(pd.DataFrame(data), ignore_index=True)
-
-        df.to_csv(csv_file, index=False)
-
-        df = pd.DataFrame(data)
-
-        df.to_csv(f'./observations/{name}')
 
         # sheets API update calls
         # CHECK MULTIPLIERS FOR AUTO HERE
@@ -243,56 +235,22 @@ def observation():
         data['auto_high'] *= 4
         data['auto_low'] *= 2
 
-        sheet = init_sheet(sheet_num=1)
+        csv_filename = f'./observations/scouting_record{now_time}.csv'
 
-        col1 = sheet.col_values(1)
-        team_index = len(col1) + 1
+        write_header = True
+        file_mode = 'w'
+        for filename in os.listdir('./observations'):
+            if 'scouting_record' in filename and filename.endswith('.csv'):
+                csv_filename = './observations/'+filename
+                write_header = False
+                file_mode = 'a'
+                break
 
-        sheet.update_cell(team_index, 1, data['team_name'])
-        sheet.update_cell(team_index, 2, data['high_goal'])
-        sheet.update_cell(team_index, 3, data['low_goal'])
-        sheet.update_cell(team_index, 4, data['climb'])
-        sheet.update_cell(team_index, 5, data['penalty'])
-        sheet.update_cell(team_index, 6, data['defense'])
-        sheet.update_cell(team_index, 7, data['tech_foul'])
-        sheet.update_cell(team_index, 8, data['foul'])
-        sheet.update_cell(team_index, 9, data['move_bool'])
-        sheet.update_cell(team_index, 10, data['notes'])
+        df = pd.DataFrame([data])
 
-        sheet = init_sheet(sheet_num=2)
-        
-        col1 = sheet.col_values(1)
-        team_index = len(col1) + 1
+        df.to_csv(csv_filename, index=False, header=write_header, mode=file_mode)
 
-        sheet.update_cell(team_index, 1, data['team_name'])
-        sheet.update_cell(team_index, 2, data['auto_high'])
-        sheet.update_cell(team_index, 3, data['auto_low'])
-        sheet.update_cell(team_index, 4, data['taxi'])
-            
-        # sheet.update_cell(2, 1, name)
         return redirect('home.html')
-
-    if request.method == 'POST':
-        if request.form.get('ball_shot'):
-            '''
-            cell = sheet.cell(2, 2).value
-            sheet.update_cell(2, 2, str(int(cell) + 1))
-            '''
-            balls_shot.value += 1
-            
-            print(f'{int(balls_shot.value - 1)} -> {int(balls_shot.value)}')
-        if request.form.get('accident'):
-            accidents.value += 1
-            
-            print(f'{int(accidents.value - 1)} -> {int(accidents.value)}')
-        if request.form.get('e1'):
-            e1.value += 1
-            
-            print(f'{int(e1.value - 1)} -> {int(e1.value)}')
-        if request.form.get('e2'):
-            e2.value += 1
-
-            print(f'{int(e1.value - 1)} -> {int(e2.value)}')
 
     return render_template('observing.html', **context) 
 

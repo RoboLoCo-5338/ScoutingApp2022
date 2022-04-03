@@ -1,0 +1,4 @@
+time,team_name,high_goal,low_goal,climb,penalty,defense,auto_high,auto_low,taxi,tech_foul,foul,move_bool,notes
+2022-04-03_02-11-50-786951,222,2,0,0,-,False,8,0,True,0,0,True,good
+2022-04-03_02-12-00-933986,333,0,0,4,-,False,0,2,False,0,0,True,low
+2022-04-03_02-12-09-604404,444,8,0,0,-,False,4,0,False,0,0,True,bad
